@@ -25,7 +25,15 @@ export class ParsePdfService {
             let currentPage = pdf.getPage(pageNumber);
             currentPage.then((pageLoad) => {
               console.log('current page then pageLoad');
-              pageLoad.getTextContent().then((text) => {});
+              pageLoad.getTextContent().then((text) => {
+                console.log(
+                  text.items.forEach((item: any) => {
+                    console.log(item);
+                    this.pdfText += item.str + ' ';
+                  })
+                );
+                console.log(this.pdfText);
+              });
             });
             console.log({ pageNumber });
           }
