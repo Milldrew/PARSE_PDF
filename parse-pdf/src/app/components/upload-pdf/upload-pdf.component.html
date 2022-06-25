@@ -1,0 +1,26 @@
+<mat-form-field>
+  <div class="myfilebrowser">
+    <mat-toolbar>
+      <!-- Readonly Input to show File names -->
+      <input
+        matInput
+        [(ngModel)]="myFileName"
+        readonly
+        name="memberContactNo"
+      />
+
+      <!-- Browse Button -->
+      <button mat-flat-button color="primary">Browse</button>
+    </mat-toolbar>
+
+    <!-- Fetch selected filed on change -->
+    <input
+      type="file"
+      #UploadFileInput
+      id="fileUpload"
+      (change)="fileChangeEvent($event)"
+      name="fileUpload"
+      accept=".pdf"
+    />
+  </div>
+</mat-form-field>
