@@ -4,24 +4,28 @@
       <td>
         <mat-form-field class="example-full-width" appearance="fill">
           <mat-label>Email</mat-label>
-          <input matInput />
+          <input [value]="this.pdfInfo.email || ''" matInput />
         </mat-form-field>
       </td>
     </tr>
     <tr>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Phone Number</mat-label>
-        <input matInput />
+        <input [value]="this.pdfInfo.phoneNumber || ''" matInput />
       </mat-form-field>
     </tr>
     <tr>
       <mat-form-field class="example-full-width" appearance="fill">
         <mat-label>Postal Code</mat-label>
-        <input matInput #postalCode maxlength="5" placeholder="Ex. 94105" />
+        <input
+          [value]="this.pdfInfo.zipCode || ''"
+          matInput
+          #postalCode
+          maxlength="5"
+          placeholder="Ex. 94105"
+        />
         <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
       </mat-form-field>
     </tr>
   </table>
 </form>
-
-{{ pdfInfo | json }}
