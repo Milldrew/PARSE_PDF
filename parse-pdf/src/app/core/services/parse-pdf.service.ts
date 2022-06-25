@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
+import { ParsedInfo } from '../models/parsed-info';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ParsePdfService {
   pdfText: string = '';
+  parsedInfo: ParsedInfo | null = null;
   constructor() {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/build/pdf.worker.js';
@@ -23,14 +25,12 @@ export class ParsePdfService {
             currentPage.then((pageLoad) => {
               pageLoad.getTextContent().then((text) => {
                 text.items.forEach((item: any) => {
-                  console.log(item);
                   this.pdfText += item.str + ' ';
                 });
                 //PARSE OUT INFO HERE
                 this.getInfoFromText(this.pdfText);
               });
             });
-            console.log({ pageNumber });
           }
         });
       }
@@ -39,6 +39,13 @@ export class ParsePdfService {
   }
 
   getInfoFromText(text: string) {
-    text.match(/\d*/g);
+    let phoneNumberRegex = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}/;
+    let emailRegEx = /\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}/;
+    let zipCode = text.match(/\d\d\d\d\d/);
+    let email = text.match(emailRegEx);
+    let phoneNumber = text.match(phoneNumberRegex);
+    console.log(email);
+    console.log(zipCode);
+    console.log(phoneNumber);
   }
 }
