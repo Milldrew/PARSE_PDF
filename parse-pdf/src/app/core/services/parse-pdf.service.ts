@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
-import { zip } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import { ParsedInfo } from '../models/parsed-info';
 
 @Injectable({
@@ -9,6 +9,7 @@ import { ParsedInfo } from '../models/parsed-info';
 export class ParsePdfService {
   pdfText: string = '';
   parsedInfo: ParsedInfo | null = null;
+  parseInfo: Observable<ParsedInfo> | undefined;
   constructor() {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/build/pdf.worker.js';
