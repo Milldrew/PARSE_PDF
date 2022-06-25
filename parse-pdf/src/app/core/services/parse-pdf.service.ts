@@ -43,17 +43,16 @@ export class ParsePdfService {
     let phoneNumberRegex = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}/;
     let emailRegEx = /\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}/;
     let zipCode = text.match(/\d\d\d\d\d/);
-    zipCode = this.extractString(zipCode);
-    let email = text.match(emailRegEx);
-    email = this.extractString(email);
-    let phoneNumber = text.match(phoneNumberRegex);
-    phoneNumber = this.extractString(phoneNumber);
-    this.parsedInfo = {};
-  }
-  extractString(matchArray: any) {
-    if (matchArray) {
-      return matchArray[0];
+    if (zipCode) {
+      this.parsedInfo = { zipCode: zipCode[0] };
     }
-    return matchArray;
+    let email = text.match(emailRegEx);
+    if (email) {
+      this.parsedInfo = { email: email[0] };
+    }
+    let phoneNumber = text.match(phoneNumberRegex);
+    if (phoneNumber) {
+      this.parsedInfo = { phoneNumber: phoneNumber[0] };
+    }
   }
 }
