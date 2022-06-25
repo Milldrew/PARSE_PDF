@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ParsedInfo } from 'src/app/core/models/parsed-info';
 import { ParsePdfService } from 'src/app/core/services/parse-pdf.service';
 
 @Component({
@@ -7,11 +8,13 @@ import { ParsePdfService } from 'src/app/core/services/parse-pdf.service';
   styleUrls: ['./register-form.component.scss'],
 })
 export class RegisterFormComponent implements OnInit {
-  constructor(public parsePdfService: ParsePdfService) {}
-
-  ngOnInit(): void {
-    this.parsePdfService.parsedInfo$.subscribe((data: any) =>
-      console.log(data)
-    );
+  public pdfInfo: ParsedInfo;
+  constructor(public parsePdfService: ParsePdfService) {
+    this.pdfInfo = this.parsePdfService.parsedInfo;
   }
+
+  ngAfterContentChecked() {
+    this.pdfInfo = this.parsePdfService.parsedInfo;
+  }
+  ngOnInit(): void {}
 }
