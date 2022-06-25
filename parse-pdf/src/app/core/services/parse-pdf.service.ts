@@ -8,8 +8,7 @@ import { ParsedInfo } from '../models/parsed-info';
 })
 export class ParsePdfService {
   pdfText: string = '';
-  parsedInfo: ParsedInfo | null = null;
-  parsedInfo$: Observable<ParsedInfo | null> = of(null);
+  parsedInfo: ParsedInfo = {};
   constructor() {
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/build/pdf.worker.js';
@@ -31,7 +30,7 @@ export class ParsePdfService {
                 });
                 //PARSE OUT INFO HERE POPULATES this.parsedInfo
                 this.getInfoFromText(this.pdfText);
-                this.parsedInfo$ = of(this.parsedInfo);
+                console.log(this.parsedInfo);
               });
             });
           }
@@ -45,16 +44,17 @@ export class ParsePdfService {
     let phoneNumberRegex = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}/;
     let emailRegEx = /\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}/;
     let zipCode = text.match(/\d\d\d\d\d/);
+    console.log(zipCode);
     if (zipCode) {
-      this.parsedInfo = { zipCode: zipCode[0] };
+      this.parsedInfo['zipCode'] = zipCode[0];
     }
     let email = text.match(emailRegEx);
     if (email) {
-      this.parsedInfo = { email: email[0] };
+      this.parsedInfo['email'] = email[0];
     }
     let phoneNumber = text.match(phoneNumberRegex);
     if (phoneNumber) {
-      this.parsedInfo = { phoneNumber: phoneNumber[0] };
+      this.parsedInfo['phoneNumber'] = phoneNumber[0];
     }
   }
 }
