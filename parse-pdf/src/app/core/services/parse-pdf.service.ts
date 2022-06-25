@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
+import { zip } from 'rxjs';
 import { ParsedInfo } from '../models/parsed-info';
 
 @Injectable({
@@ -42,10 +43,16 @@ export class ParsePdfService {
     let phoneNumberRegex = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}/;
     let emailRegEx = /\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}/;
     let zipCode = text.match(/\d\d\d\d\d/);
+    zipCode = this.extractString(zipCode);
     let email = text.match(emailRegEx);
+    email = this.extractString(email);
     let phoneNumber = text.match(phoneNumberRegex);
-    console.log(email);
-    console.log(zipCode);
-    console.log(phoneNumber);
+    phoneNumber = this.extractString(phoneNumber);
+  }
+  extractString(matchArray: any) {
+    if (matchArray) {
+      return matchArray[0];
+    }
+    return matchArray;
   }
 }
