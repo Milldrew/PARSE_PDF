@@ -48,6 +48,7 @@ export class ParsePdfService {
     email = this.extractString(email);
     let phoneNumber = text.match(phoneNumberRegex);
     phoneNumber = this.extractString(phoneNumber);
+    this.parsedInfo = {};
   }
   extractString(matchArray: any) {
     if (matchArray) {
