@@ -14,25 +14,20 @@ export class ParsePdfService {
     const reader = new FileReader();
 
     reader.addEventListener('load', () => {
-      console.log('got url');
       if (typeof reader.result === 'string') {
         const loadingTask = pdfjsLib.getDocument(reader.result);
         loadingTask.promise.then((pdf) => {
-          console.log('pdf proxy ready');
           let { numPages } = pdf._pdfInfo;
-          console.log({ numPages });
           for (let pageNumber = 1; pageNumber <= numPages; pageNumber += 1) {
             let currentPage = pdf.getPage(pageNumber);
             currentPage.then((pageLoad) => {
-              console.log('current page then pageLoad');
               pageLoad.getTextContent().then((text) => {
-                console.log(
-                  text.items.forEach((item: any) => {
-                    console.log(item);
-                    this.pdfText += item.str + ' ';
-                  })
-                );
-                console.log(this.pdfText);
+                text.items.forEach((item: any) => {
+                  console.log(item);
+                  this.pdfText += item.str + ' ';
+                });
+                //PARSE OUT INFO HERE
+                this.getInfoFromText(this.pdfText);
               });
             });
             console.log({ pageNumber });
@@ -41,5 +36,9 @@ export class ParsePdfService {
       }
     });
     reader.readAsDataURL(file);
+  }
+
+  getInfoFromText(text: string) {
+    text.match(/\d*/g);
   }
 }
