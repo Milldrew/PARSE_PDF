@@ -2,29 +2,27 @@
   <table class="example-full-width" cellspacing="0">
     <tr>
       <td>
-        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-form-field class="example-full-width" appearance="fill" [class.flash]="parsePdfService.status === 'done' && !!pdfInfo.email">
           <mat-label>Email</mat-label>
           <input [value]="this.pdfInfo.email || ''" matInput />
         </mat-form-field>
       </td>
     </tr>
     <tr>
-      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-form-field class="example-full-width" appearance="fill" [class.flash]="parsePdfService.status === 'done' && !!pdfInfo.phoneNumber">
         <mat-label>Phone Number</mat-label>
         <input [value]="this.pdfInfo.phoneNumber || ''" matInput />
       </mat-form-field>
     </tr>
     <tr>
-      <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Postal Code</mat-label>
+      <mat-form-field class="example-full-width" appearance="fill" [class.flash]="parsePdfService.status === 'done' && !!pdfInfo.zipCode">
+        <mat-label>ZIP Code</mat-label>
         <input
           [value]="this.pdfInfo.zipCode || ''"
           matInput
           #postalCode
           maxlength="5"
-          placeholder="Ex. 94105"
         />
-        <mat-hint align="end">{{ postalCode.value.length }} / 5</mat-hint>
       </mat-form-field>
     </tr>
   </table>

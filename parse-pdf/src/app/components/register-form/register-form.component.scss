@@ -9,3 +9,13 @@
   display: block;
   width: 100%;
 }
+
+/* A field the PDF just filled lights up briefly, in the same yellow as the
+   highlights on the example, so it is obvious where each detail went. */
+.flash ::ng-deep .mat-form-field-flex {
+  animation: filled 1.6s ease-out;
+}
+@keyframes filled {
+  0%, 40% { background-color: #fff59d; }
+  100% { background-color: rgba(0, 0, 0, 0.04); }
+}

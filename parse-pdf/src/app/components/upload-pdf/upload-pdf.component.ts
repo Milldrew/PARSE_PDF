@@ -8,7 +8,7 @@ import { ParsePdfService } from 'src/app/core/services/parse-pdf.service';
 })
 export class UploadPdfComponent {
   constructor(public parsePdf: ParsePdfService) {}
-  myFileName: any = 'Choose A file';
+  myFileName: any = 'No file chosen';
 
   fileChangeEvent(inputFileEvent: any) {
     const uploadedFile = inputFileEvent.target.files[0];

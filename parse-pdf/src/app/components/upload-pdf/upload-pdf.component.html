@@ -1,3 +1,21 @@
+<section class="example" aria-labelledby="example-title">
+  <h2 id="example-title">Example</h2>
+  <a href="assets/sample-contact-sheet.pdf" target="_blank" rel="noopener" class="preview">
+    <img
+      src="assets/sample-contact-sheet-preview.png"
+      alt="Sample PDF: a volunteer sign-up sheet for Jordan Avery. The email address, phone number and ZIP code are highlighted."
+      width="612"
+      height="408"
+    />
+  </a>
+  <p class="caption">The app finds the highlighted details and copies them into the form.</p>
+  <div class="actions">
+    <button mat-flat-button color="accent" type="button" (click)="useSample()">Fill the form from this PDF</button>
+    <a mat-button href="assets/sample-contact-sheet.pdf" target="_blank" rel="noopener">Open the sample PDF</a>
+  </div>
+</section>
+
+<h2 class="own">Or use your own PDF</h2>
 <mat-form-field>
   <div class="myfilebrowser">
     <mat-toolbar>
@@ -24,13 +42,9 @@
     />
   </div>
 </mat-form-field>
-<div class="sample">
-  <button mat-stroked-button color="accent" type="button" (click)="useSample()">Try a sample PDF</button>
-  <a mat-button href="assets/sample-contact-sheet.pdf" target="_blank" rel="noopener">View the sample</a>
-</div>
 <p class="status" role="status" aria-live="polite" [ngSwitch]="parsePdf.status">
   <span *ngSwitchCase="'reading'">Reading the PDF…</span>
-  <span *ngSwitchCase="'done'">Found it - the form below is filled in.</span>
-  <span *ngSwitchCase="'nothing-found'">No email, phone number or postal code in that PDF.</span>
-  <span *ngSwitchCase="'error'" class="error">That file could not be read as a PDF.</span>
+  <span *ngSwitchCase="'done'">Done! The form is filled in.</span>
+  <span *ngSwitchCase="'nothing-found'">No email, phone number or ZIP code found in this PDF.</span>
+  <span *ngSwitchCase="'error'" class="error">That file isn't a PDF this app can read.</span>
 </p>

@@ -52,3 +52,37 @@ input {
 .error {
   color: #f44336;
 }
+
+h2 {
+  width: 100%;
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.87);
+}
+.example {
+  width: 100%;
+  margin-bottom: 24px;
+}
+.preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.caption {
+  margin: 8px 0 12px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.own {
+  margin-top: 4px;
+}

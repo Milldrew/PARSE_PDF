@@ -22,8 +22,13 @@
     color: #3f51b5;
   }
   p {
-    margin: 0 0 16px;
+    margin: 0 0 8px;
     color: rgba(0, 0, 0, 0.6);
     line-height: 1.5;
   }
+}
+
+.intro .private {
+  margin-bottom: 16px;
+  font-size: 13px;
 }
