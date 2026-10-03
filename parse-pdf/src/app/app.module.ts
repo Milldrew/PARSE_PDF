@@ -1,5 +1,6 @@
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -15,6 +16,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     MatToolbarModule,
     MatInputModule,
+    MatButtonModule,
     BrowserModule,
     BrowserAnimationsModule,
   ],

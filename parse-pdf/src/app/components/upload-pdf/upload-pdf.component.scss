@@ -27,3 +27,28 @@ input {
   top: 0px;
   cursor: pointer;
 }
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(420px, 92vw);
+}
+:host ::ng-deep .mat-form-field {
+  width: 100%;
+}
+.sample {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.status {
+  min-height: 1.4em;
+  margin: 12px 0 4px;
+  font-size: 14px;
+  text-align: center;
+}
+.error {
+  color: #f44336;
+}

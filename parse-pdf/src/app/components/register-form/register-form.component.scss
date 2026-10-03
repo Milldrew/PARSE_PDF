@@ -1,0 +1,11 @@
+:host {
+  display: block;
+  width: min(420px, 92vw);
+}
+.example-form,
+.example-full-width,
+.example-full-width tr,
+.example-full-width td {
+  display: block;
+  width: 100%;
+}

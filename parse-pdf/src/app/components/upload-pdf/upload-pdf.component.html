@@ -7,12 +7,11 @@
         [(ngModel)]="myFileName"
         readonly
         name="memberContactNo"
+        aria-label="Chosen file"
       />
-
       <!-- Browse Button -->
-      <button mat-flat-button color="primary">Browse</button>
+      <button mat-flat-button color="primary" tabindex="-1">Browse</button>
     </mat-toolbar>
-
     <!-- Fetch selected filed on change -->
     <input
       type="file"
@@ -21,6 +20,17 @@
       (change)="fileChangeEvent($event)"
       name="fileUpload"
       accept=".pdf"
+      aria-label="Choose a PDF"
     />
   </div>
 </mat-form-field>
+<div class="sample">
+  <button mat-stroked-button color="accent" type="button" (click)="useSample()">Try a sample PDF</button>
+  <a mat-button href="assets/sample-contact-sheet.pdf" target="_blank" rel="noopener">View the sample</a>
+</div>
+<p class="status" role="status" aria-live="polite" [ngSwitch]="parsePdf.status">
+  <span *ngSwitchCase="'reading'">Reading the PDF…</span>
+  <span *ngSwitchCase="'done'">Found it - the form below is filled in.</span>
+  <span *ngSwitchCase="'nothing-found'">No email, phone number or postal code in that PDF.</span>
+  <span *ngSwitchCase="'error'" class="error">That file could not be read as a PDF.</span>
+</p>

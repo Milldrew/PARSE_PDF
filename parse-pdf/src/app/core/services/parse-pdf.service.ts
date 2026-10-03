@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as pdfjsLib from 'pdfjs-dist';
-import { Observable, of, zip } from 'rxjs';
 import { ParsedInfo } from '../models/parsed-info';
+
+export type ParseStatus = 'idle' | 'reading' | 'done' | 'nothing-found' | 'error';
 
 @Injectable({
   providedIn: 'root',
@@ -9,42 +10,40 @@ import { ParsedInfo } from '../models/parsed-info';
 export class ParsePdfService {
   pdfText: string = '';
   parsedInfo: ParsedInfo = {};
+  status: ParseStatus = 'idle';
   constructor() {
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      '//cdn.jsdelivr.net/npm/pdfjs-dist@2.14.305/build/pdf.worker.js';
+    // Served from this app's own assets (copied from node_modules at build),
+    // so it always matches the bundled pdf.js and needs no third-party CDN.
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/pdf.worker.min.js';
   }
-  parseData(file: File) {
-    const reader = new FileReader();
 
-    reader.addEventListener('load', () => {
-      if (typeof reader.result === 'string') {
-        const loadingTask = pdfjsLib.getDocument(reader.result);
-        loadingTask.promise.then((pdf) => {
-          let { numPages } = pdf._pdfInfo;
-          for (let pageNumber = 1; pageNumber <= numPages; pageNumber += 1) {
-            let currentPage = pdf.getPage(pageNumber);
-            currentPage.then((pageLoad) => {
-              pageLoad.getTextContent().then((text) => {
-                text.items.forEach((item: any) => {
-                  this.pdfText += item.str + ' ';
-                });
-                //PARSE OUT INFO HERE POPULATES this.parsedInfo
-                this.getInfoFromText(this.pdfText);
-                console.log(this.parsedInfo);
-              });
-            });
-          }
-        });
+  /** Reads every page of the PDF in the browser, then fills in what it finds. */
+  async parseData(file: Blob) {
+    // A fresh start for each file: the text used to accumulate across uploads.
+    this.pdfText = '';
+    this.parsedInfo = {};
+    this.status = 'reading';
+    try {
+      const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+      const pages: string[] = [];
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber += 1) {
+        const page = await pdf.getPage(pageNumber);
+        const text = await page.getTextContent();
+        pages.push(text.items.map((item: any) => item.str).join(' '));
       }
-    });
-    reader.readAsDataURL(file);
+      this.pdfText = pages.join(' ');
+      this.getInfoFromText(this.pdfText);
+      this.status = Object.keys(this.parsedInfo).length ? 'done' : 'nothing-found';
+    } catch (error) {
+      console.error(error);
+      this.status = 'error';
+    }
   }
 
   getInfoFromText(text: string) {
     let phoneNumberRegex = /(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}/;
     let emailRegEx = /\S+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}/;
-    let zipCode = text.match(/\d\d\d\d\d/);
-    console.log(zipCode);
+    let zipCode = text.match(/\b\d{5}\b/);
     if (zipCode) {
       this.parsedInfo['zipCode'] = zipCode[0];
     }
